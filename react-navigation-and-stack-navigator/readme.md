@@ -30,6 +30,7 @@ import 'react-native-gesture-handler';
 ```
 
 #### Usage
+>for Example you can [Click this](./example)
 ```
 import 'react-native-gesture-handler';
 import * as React from 'react';
