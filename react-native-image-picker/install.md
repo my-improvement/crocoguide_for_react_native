@@ -7,15 +7,7 @@
 ## Install
 
 ```
-yarn add react-native-image-picker
-or
 npm install react-native-image-picker
-
-# RN >= 0.60
-npx pod-install
-
-# RN < 0.60
-react-native link react-native-image-picker
 ```
 ⚠️ If you need to support React Native < 0.40, you must install this package: `react-native-image-picker@0.24`.
 
