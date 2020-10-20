@@ -4,6 +4,7 @@
 ## Guide For
 
 > #### React-Native-Image-Picker
+>Pick images from camera or gallery.
 ## Install
 
 ```
