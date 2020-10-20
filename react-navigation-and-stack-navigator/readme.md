@@ -8,8 +8,6 @@
 ### Installation
 ```
 npm install @react-navigation/native
-or 
-yarn add  @react-navigation/native
 ```
 
 #### Installing dependencies into a bare React Native project
@@ -24,8 +22,6 @@ npx pod-install ios
 #### Installing Stack Navigator
 ```
 npm install @react-navigation/stack
-or
-yarn add @react-navigation/stack
 ```
 
 #### To finalize installation of react-native-gesture-handler, add the following at the top (make sure it's at the top and there's nothing else before it) of your entry file, such as index.js or App.js:
