@@ -1,5 +1,5 @@
 ```
-import React, { Component } as React from 'react';
+import React, { Component } from 'react'
 import { View, Text } from 'react-native'
 
 export default class Splashscreen extends Component {
@@ -12,5 +12,5 @@ export default class Splashscreen extends Component {
         Splashscreen
       </Text>
     </View>
-  );
+  )
 ```
