@@ -10,6 +10,9 @@
 
 ```
 npm install react-native-image-picker
+
+# RN >= 0.60
+npx pod-install
 ```
 You will also need to add `UsageDescription` on iOS and some permissions on Android, refer to the [Install doc](./install.md).
 
