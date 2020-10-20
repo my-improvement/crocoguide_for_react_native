@@ -5,8 +5,13 @@
 > #### Midtrans Go-Pay
 > Implement transaction using Midtrans Go-Pay.
 
+
+<br />
+
 <details>
   <summary style = 'font-size: 20px; font-weight: bold;'>Usage</summary>
+
+<br />
 
 ```
 import React from 'react'
@@ -76,13 +81,19 @@ export default class extends React.Component {
 ```
 </details>
 
+<br />
+
 <details>
     <summary style = 'font-size: 20px; font-weight: bold;'>Bridging</summary>
 
+<br />
+
 <details>
-    <summary style = 'font-size: 18px; font-weight: bold;'>Android</summary>
+    <summary style = 'font-size: 16px; font-weight: bold;'>Android</summary>
     
-- Add the dependency in **app/build.gradle**
+<br />
+
+1. Add the dependency in **app/build.gradle**
 
 ```
 dependencies {
@@ -92,7 +103,7 @@ dependencies {
 }
 ```
 
-- Add repositories sources in **build.gradle**
+2. Add repositories sources in **build.gradle**
 
 ```
 allprojects {
@@ -105,20 +116,20 @@ allprojects {
 }
 ```
 
-- Register package in **MainApplication.java**
+3. Register package in **MainApplication.java**
 
-import first
+- Import first
 ```
 import com.midtrans.sdk.corekit.callback.TransactionFinishedCallback;
 import com.midtrans.sdk.corekit.models.snap.TransactionResult;
 import com.midtrans.sdk.uikit.SdkUIFlowBuilder;
 ```
 
-register the package
+- Register the package
 
 ```packages.add(new MyBridgingTestPackage());```
 
-then add this to onCreate function
+- Then add this to onCreate function
 
 ```
 SdkUIFlowBuilder.init()
@@ -141,8 +152,9 @@ SdkUIFlowBuilder.init()
 .buildSDK();
 ```
 
-Create your bridging package file, for example in **android/app/src/main/java/com/your/packagename/MyBridgingTestPackage.java**
-like this
+4. Create your bridging package file,
+   for example in **android/app/src/main/java/com/your/packagename/MyBridgingTestPackage.java**
+   like this
 
 ```
 package com.your.packagename;
@@ -174,8 +186,9 @@ public class MyBridgingTestPackage implements ReactPackage  {
 }
 ```
 
-Create your bridging handling file, for example in **android/app/src/main/java/com/your/packagename/MyBridgingTest.java**
-you can copy the functional feature from this
+5. Create your bridging handling file,
+   for example in **android/app/src/main/java/com/your/packagename/MyBridgingTest.java**
+   you can copy the functional feature from this
 
 ```
 package com.your.packagename;
