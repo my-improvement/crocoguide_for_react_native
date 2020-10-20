@@ -6,277 +6,279 @@
 > Implement transaction using Midtrans Go-Pay.
 
 <details>
-  <summary>Usage</summary>
+  <summary style = 'font-size: 20px; font-weight: bold;'>Usage</summary>
 
-  ```
-    import React from 'react'
-    import { NativeModules, Platform, Text, TouchableOpacity, View } from 'react-native'
+```
+import React from 'react'
+import { NativeModules, Platform, Text, TouchableOpacity, View } from 'react-native'
 
-    export default class extends React.Component {
-        render() {
-            return (
-                <View
+export default class extends React.Component {
+    render() {
+        return (
+            <View
+                style = {{
+                    alignItems: 'center',
+                    flex: 1,
+                    justifyContent: 'center'
+                }}
+            >
+                <TouchableOpacity
+                    onPress = {() => this.startGoPayTransaction()}
                     style = {{
-                        alignItems: 'center',
-                        flex: 1,
-                        justifyContent: 'center'
+                        backgroundColor: 'deepskyblue',
+                        borderRadius: 5,
+                        padding: 10
                     }}
                 >
-                    <TouchableOpacity
-                        onPress = {() => this.startGoPayTransaction()}
+                    <Text
                         style = {{
-                            backgroundColor: 'deepskyblue',
-                            borderRadius: 5,
-                            padding: 10
+                            color: 'white',
+                            fontSize: 24,
+                            fontWeight: 'bold'
                         }}
                     >
-                        <Text
-                            style = {{
-                                color: 'white',
-                                fontSize: 24,
-                                fontWeight: 'bold'
-                            }}
-                        >
-                            Start Midtrans Go-Pay Transaction
-                        </Text>
-                    </TouchableOpacity>
-                </View>
+                        Start Midtrans Go-Pay Transaction
+                    </Text>
+                </TouchableOpacity>
+            </View>
+        )
+    }
+
+    startGoPayTransaction() {
+        const token = "YOUR_MIDTRANS_ORDER_TOKEN"
+
+        const MyBridgingTest = NativeModules.MyBridgingTest
+
+        if(Platform.OS == "android") {
+            MyBridgingTest.StartGojekAppActivity(
+                token,
+                (error) => {
+                    console.error(error)
+                }, 
+                (status) => {
+                    alert(status)
+                }
             )
-        }
-
-        startGoPayTransaction() {
-            const token = "YOUR_MIDTRANS_ORDER_TOKEN"
-
-            const MyBridgingTest = NativeModules.MyBridgingTest
-
-            if(Platform.OS == "android") {
-                MyBridgingTest.StartGojekAppActivity(
-                    token,
-                    (error) => {
+        } else if(Platform.OS == "ios") {
+            MyBridgingTest.StartGojekAppActivity(
+                token,
+                (error, status) => {
+                    if (error) {
                         console.error(error)
-                    }, 
-                    (status) => {
+                    } else {
                         alert(status)
                     }
-                )
-            } else if(Platform.OS == "ios") {
-                MyBridgingTest.StartGojekAppActivity(
-                    token,
-                    (error, status) => {
-                        if (error) {
-                            console.error(error)
-                        } else {
-                            alert(status)
-                        }
-                    }
-                )
-            }
+                }
+            )
         }
     }
-    ```
+}
+```
 </details>
 
 <details>
-    <summary>Bridging</summary>
+    <summary style = 'font-size: 20px; font-weight: bold;'>Bridging</summary>
 
-    #### Android
+<details>
+    <summary style = 'font-size: 18px; font-weight: bold;'>Android</summary>
+    
+- Add the dependency in **app/build.gradle**
 
-    - Add the dependency in **app/build.gradle**
+```
+dependencies {
+    //previous existing dependencies, then...
 
-    ```
-    dependencies {
-        //previous existing dependencies, then...
+    implementation 'com.midtrans:uikit:1.21.2' //add this
+}
+```
 
-        implementation 'com.midtrans:uikit:1.21.2' //add this
+- Add repositories sources in **build.gradle**
+
+```
+allprojects {
+    repositories {
+        //previous existing repositories sources, then...
+
+        maven { url "https://jitpack.io" } //add this if this not added yet
+        maven { url "http://dl.bintray.com/pt-midtrans/maven" } //and add this
     }
-    ```
+}
+```
 
-    - Add repositories sources in **build.gradle**
+- Register package in **MainApplication.java**
 
-    ```
-    allprojects {
-        repositories {
-            //previous existing repositories sources, then...
+import first
+```
+import com.midtrans.sdk.corekit.callback.TransactionFinishedCallback;
+import com.midtrans.sdk.corekit.models.snap.TransactionResult;
+import com.midtrans.sdk.uikit.SdkUIFlowBuilder;
+```
 
-            maven { url "https://jitpack.io" } //add this if this not added yet
-            maven { url "http://dl.bintray.com/pt-midtrans/maven" } //and add this
-        }
+register the package
+
+```packages.add(new MyBridgingTestPackage());```
+
+then add this to onCreate function
+
+```
+SdkUIFlowBuilder.init()
+.setClientKey("MIDTRANS_CLIENT_KEY") //client_key is mandatory
+.setContext(this) // context is mandatory
+.setTransactionFinishedCallback(new TransactionFinishedCallback() { //set transaction finish callback (sdk callback)
+    @Override
+    public void onTransactionFinished(TransactionResult transactionResult) {
     }
-    ```
+})
+.setMerchantBaseUrl("https://app.midtrans.com/snap/v1/") //set merchant url (required)
+.enableLog(true) //enable sdk log (optional)
+/*.setColorTheme( //set theme. it will replace theme on snap theme on MAP ( optional)
+    CustomColorTheme(
+        "#FFE51255",
+        "#B61548",
+        "#FFE51255"
+    )
+)*/
+.buildSDK();
+```
 
-    - Register package in **MainApplication.java**
+Create your bridging package file, for example in **android/app/src/main/java/com/your/packagename/MyBridgingTestPackage.java**
+like this
 
-    import first
-    ```
-    import com.midtrans.sdk.corekit.callback.TransactionFinishedCallback;
-    import com.midtrans.sdk.corekit.models.snap.TransactionResult;
-    import com.midtrans.sdk.uikit.SdkUIFlowBuilder;
-    ```
+```
+package com.your.packagename;
 
-    register the package
+import com.facebook.react.ReactPackage;
+import com.facebook.react.bridge.NativeModule;
+import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.uimanager.ViewManager;
 
-    ```packages.add(new MyBridgingTestPackage());```
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-    then add this to onCreate function
-
-    ```
-    SdkUIFlowBuilder.init()
-    .setClientKey("MIDTRANS_CLIENT_KEY") //client_key is mandatory
-    .setContext(this) // context is mandatory
-    .setTransactionFinishedCallback(new TransactionFinishedCallback() { //set transaction finish callback (sdk callback)
-        @Override
-        public void onTransactionFinished(TransactionResult transactionResult) {
-        }
-    })
-    .setMerchantBaseUrl("https://app.midtrans.com/snap/v1/") //set merchant url (required)
-    .enableLog(true) //enable sdk log (optional)
-    /*.setColorTheme( //set theme. it will replace theme on snap theme on MAP ( optional)
-        CustomColorTheme(
-            "#FFE51255",
-            "#B61548",
-            "#FFE51255"
-        )
-    )*/
-    .buildSDK();
-    ```
-
-    Create your bridging package file, for example in **android/app/src/main/java/com/your/packagename/MyBridgingTestPackage.java**
-    like this
-
-    ```
-    package com.your.packagename;
-
-    import com.facebook.react.ReactPackage;
-    import com.facebook.react.bridge.NativeModule;
-    import com.facebook.react.bridge.ReactApplicationContext;
-    import com.facebook.react.uimanager.ViewManager;
-
-    import java.util.ArrayList;
-    import java.util.Collections;
-    import java.util.List;
-
-    public class MyBridgingTestPackage implements ReactPackage  {
-        @Override
-        public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
-            return Collections.emptyList();
-        }
-
-        @Override
-        public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
-            List<NativeModule> modules = new ArrayList<>();
-
-            modules.add(new MyBridgingTest(reactContext));
-
-            return modules;
-        }
-
+public class MyBridgingTestPackage implements ReactPackage  {
+    @Override
+    public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
+        return Collections.emptyList();
     }
-    ```
 
-    Create your bridging handling file, for example in **android/app/src/main/java/com/your/packagename/MyBridgingTest.java**
-    you can copy the functional feature from this
+    @Override
+    public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
+        List<NativeModule> modules = new ArrayList<>();
 
-    ```
-    package com.your.packagename;
+        modules.add(new MyBridgingTest(reactContext));
 
-    import android.app.Activity;
-    import android.content.Intent;
-    import android.net.Uri;
-    import android.util.Log;
+        return modules;
+    }
 
-    import com.facebook.react.bridge.ActivityEventListener;
-    import com.facebook.react.bridge.ReactApplicationContext;
-    import com.facebook.react.bridge.ReactContextBaseJavaModule;
-    import com.facebook.react.bridge.ReactMethod;
-    import com.facebook.react.bridge.Callback;
+}
+```
 
-    import com.midtrans.sdk.corekit.callback.GetTransactionStatusCallback;
-    import com.midtrans.sdk.corekit.callback.TransactionCallback;
-    import com.midtrans.sdk.corekit.core.MidtransSDK;
-    import com.midtrans.sdk.corekit.models.TransactionResponse;
-    import com.midtrans.sdk.corekit.models.snap.TransactionStatusResponse;
+Create your bridging handling file, for example in **android/app/src/main/java/com/your/packagename/MyBridgingTest.java**
+you can copy the functional feature from this
 
-    public class MyBridgingTest extends ReactContextBaseJavaModule implements ActivityEventListener {
-        Callback activityCallback;
+```
+package com.your.packagename;
 
-        public MyBridgingTest(
-            ReactApplicationContext reactContext
-        ) {
-            super(reactContext);
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
+import android.util.Log;
 
-            reactContext.addActivityEventListener(this);
-        }
+import com.facebook.react.bridge.ActivityEventListener;
+import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContextBaseJavaModule;
+import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.Callback;
 
-        @ReactMethod
-        public void StartGojekAppActivity(
-            String token,
-            Callback errorCallback,
-            Callback successCallback
-        ) {
-            try {
-                activityCallback = successCallback;
+import com.midtrans.sdk.corekit.callback.GetTransactionStatusCallback;
+import com.midtrans.sdk.corekit.callback.TransactionCallback;
+import com.midtrans.sdk.corekit.core.MidtransSDK;
+import com.midtrans.sdk.corekit.models.TransactionResponse;
+import com.midtrans.sdk.corekit.models.snap.TransactionStatusResponse;
 
-                MidtransSDK.getInstance().setAuthenticationToken(token);
+public class MyBridgingTest extends ReactContextBaseJavaModule implements ActivityEventListener {
+    Callback activityCallback;
 
-                MidtransSDK.getInstance().paymentUsingGoPay(token, new TransactionCallback() {
-                    @Override
-                    public void onSuccess(TransactionResponse transactionResponse) {
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(transactionResponse.getDeeplinkUrl()));
-                        getReactApplicationContext().startActivityForResult(intent, 100, null);
-                    }
+    public MyBridgingTest(
+        ReactApplicationContext reactContext
+    ) {
+        super(reactContext);
 
-                    @Override
-                    public void onFailure(TransactionResponse transactionResponse, String s) {
+        reactContext.addActivityEventListener(this);
+    }
 
-                    }
+    @ReactMethod
+    public void StartGojekAppActivity(
+        String token,
+        Callback errorCallback,
+        Callback successCallback
+    ) {
+        try {
+            activityCallback = successCallback;
 
-                    @Override
-                    public void onError(Throwable throwable) {
+            MidtransSDK.getInstance().setAuthenticationToken(token);
 
-                    }
-                });
+            MidtransSDK.getInstance().paymentUsingGoPay(token, new TransactionCallback() {
+                @Override
+                public void onSuccess(TransactionResponse transactionResponse) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(transactionResponse.getDeeplinkUrl()));
+                    getReactApplicationContext().startActivityForResult(intent, 100, null);
+                }
 
-            } catch (Exception e) {
-                errorCallback.invoke(e.getMessage());
-            }
-        }
+                @Override
+                public void onFailure(TransactionResponse transactionResponse, String s) {
 
-        @Override
-        public String getName() {
-            return "MyBridgingTest";
-        }
+                }
 
+                @Override
+                public void onError(Throwable throwable) {
 
-        @Override
-        public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
+                }
+            });
 
-            if(requestCode == 100) {
-
-                String token = MidtransSDK.getInstance().readAuthenticationToken();
-
-                MidtransSDK.getInstance().getTransactionStatus(token, new GetTransactionStatusCallback() {
-                    @Override
-                    public void onSuccess(TransactionStatusResponse transactionStatusResponse) {
-                        activityCallback.invoke("Success");
-                    }
-
-                    @Override
-                    public void onFailure(TransactionStatusResponse transactionStatusResponse, String s) {
-                        activityCallback.invoke("Failure");
-                    }
-
-                    @Override
-                    public void onError(Throwable throwable) {
-                        activityCallback.invoke("Error");
-                    }
-                });
-            }
-        }
-
-        @Override
-        public void onNewIntent(Intent intent) {
-
+        } catch (Exception e) {
+            errorCallback.invoke(e.getMessage());
         }
     }
-    ```
+
+    @Override
+    public String getName() {
+        return "MyBridgingTest";
+    }
+
+
+    @Override
+    public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
+
+        if(requestCode == 100) {
+
+            String token = MidtransSDK.getInstance().readAuthenticationToken();
+
+            MidtransSDK.getInstance().getTransactionStatus(token, new GetTransactionStatusCallback() {
+                @Override
+                public void onSuccess(TransactionStatusResponse transactionStatusResponse) {
+                    activityCallback.invoke("Success");
+                }
+
+                @Override
+                public void onFailure(TransactionStatusResponse transactionStatusResponse, String s) {
+                    activityCallback.invoke("Failure");
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    activityCallback.invoke("Error");
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onNewIntent(Intent intent) {
+
+    }
+}
+```
+</details>
 </details>
