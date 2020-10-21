@@ -5,11 +5,14 @@
 > #### Midtrans Go-Pay
 > Implement transaction using Midtrans Go-Pay.
 
+<br />
+
+### Usage
 
 <br />
 
 <details>
-  <summary style = 'font-size: 20px; font-weight: bold;'>Usage</summary>
+<summary>Click to expand / collapse <strong>Usage</strong></summary>
 
 <br />
 
@@ -87,13 +90,14 @@ export default class extends React.Component {
 
 <br />
 
-<details>
-    <summary style = 'font-size: 20px; font-weight: bold;'>Bridging</summary>
-
-<br />
+### Bridging
 
 <details>
-    <summary style = 'font-size: 16px; font-weight: bold;'>Android</summary>
+    <summary>Click to expand / collapse <strong>Bridging</strong></summary>
+
+#### Android
+<details>
+    <summary>Click to expand / collapse <strong>Android Bridging</strong></summary>
     
 <br />
 
@@ -156,9 +160,7 @@ SdkUIFlowBuilder.init()
 .buildSDK();
 ```
 
-4. Create your bridging package file,
-   for example in **android/app/src/main/java/com/your/packagename/MyBridgingTestPackage.java**
-   like this
+4. Create your bridging package file, for example in **android/app/src/main/java/com/your/packagename/MyBridgingTestPackage.java** like this
 
 ```
 package com.your.packagename;
@@ -190,9 +192,7 @@ public class MyBridgingTestPackage implements ReactPackage  {
 }
 ```
 
-5. Create your bridging handling file,
-   for example in **android/app/src/main/java/com/your/packagename/MyBridgingTest.java**
-   you can copy the functional feature from this
+5. Create your bridging handling file, for example in **android/app/src/main/java/com/your/packagename/MyBridgingTest.java** you can copy the functional feature from this
 
 ```
 package com.your.packagename;
