@@ -13,6 +13,10 @@
 
 <br />
 
+<img src="./resources/preview.gif"/>
+
+<br />
+
 ```
 import React from 'react'
 import { NativeModules, Platform, Text, TouchableOpacity, View } from 'react-native'
