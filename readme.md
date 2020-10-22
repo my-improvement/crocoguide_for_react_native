@@ -14,4 +14,4 @@ Init your react-native project first.
 | [<img src="https://reactnavigation.org/img/spiro.svg" width="90">](./react-navigation-and-stack-navigator/readme.md) | [React-Navigation + Stack Navigator](./react-navigation-and-stack-navigator/readme.md) | Set up core navigation and create basic app navigation with stack navigator. |
 | [<img src="https://idn-static-assets.s3-ap-southeast-1.amazonaws.com/website/img/merchant_logos/idn_gopay.png" width="90">](./midtrans-gopay/readme.md) | [Midtrans Go-Pay](./midtrans-gopay/readme.md) | Implement transaction using Midtrans Go-Pay. |
 | [<img src="https://lh3.googleusercontent.com/sMzCSERY-5_8VZ2z9v0kvzM3ZA21uRHMrVGSYMPP499ecagswyzFYUMbfU02wwDnL1k=s360" width="90">](./react-native-webview/readme.md) | [React Native WebView](./react-native-webview/readme.md) | Displaying a web view in the react native app. |
-
+| [<img src="https://icon-library.com/images/menu-bars-icon/menu-bars-icon-5.jpg" width="90">](./react-native-side-menu/readme.md) | [React Native Side Menu](./react-native-side-menu/readme.md) | Side menu component for React Native. |
