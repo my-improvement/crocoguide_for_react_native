@@ -30,4 +30,4 @@ import 'react-native-gesture-handler'
 ```
 
 #### Usage
->for sample usage you can follow [this example folder](./example)
+>for sample usage you can follow [this example link](https://snack.expo.io/ud!!cEFUi)
