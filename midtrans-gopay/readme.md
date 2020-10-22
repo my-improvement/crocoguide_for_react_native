@@ -19,6 +19,7 @@
 <img src="./resources/preview.gif"/>
 
 <br />
+<br />
 
 ```
 import React from 'react'
