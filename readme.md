@@ -1,4 +1,8 @@
-## Guide For React-Native Features And React-Native Libraries Implementation
+<p align="center">
+  <img src ="https://images.unsplash.com/photo-1586473219010-2ffc57b0d282?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1300&q=80" height="400" />
+</p>
+
+<p align="center">Tired to figure it out React-Native setup <strong>again</strong> and <strong>again</strong>? This repo hopefully will cover it up.</p>
 
 #### Preparation
 
