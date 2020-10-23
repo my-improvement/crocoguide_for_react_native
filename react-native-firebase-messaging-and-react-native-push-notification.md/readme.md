@@ -46,4 +46,4 @@ apply plugin: 'com.google.gms.google-services'
 Then put your ```google-services.json``` in ```android/app/```.
 
 ### Usage
->for sample usage you can follow [this example link](./example)
+>for sample usage you can follow [this example folder](./example)
