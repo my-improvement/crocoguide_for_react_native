@@ -33,14 +33,8 @@ buildscript {
     }
 }
 ```
-In ``` android/app/build.gradle ```
-```gradle
-dependencies {
-  ...
-  implementation 'com.google.firebase:firebase-analytics:17.3.0'
-  ...
-}
-
+In the bottom of ``` android/app/build.gradle ``` add
+```
 apply plugin: 'com.google.gms.google-services'
 ```
 Then put your ```google-services.json``` in ```android/app/```.
