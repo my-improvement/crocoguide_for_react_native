@@ -20,6 +20,31 @@ npm i --save react-native-push-notification
 cd ios/ && pod install
 ```
 
+### If you use remote notifications
+Make sure you have installed setup Firebase correctly.
+In ``` android/build.gradle ```
+```
+buildscript {
+    ...
+    dependencies {
+        ...
+        classpath('com.google.gms:google-services:4.3.3')
+        ...
+    }
+}
+```
+In ``` android/app/build.gradle ```
+```
+dependencies {
+  ...
+  implementation 'com.google.firebase:firebase-analytics:17.3.0'
+  ...
+}
+
+apply plugin: 'com.google.gms.google-services'
+```
+Then put your ```google-services.json``` in ```android/app/```.
+
 ### Usage
 change **Index.js** like this:
 ```
