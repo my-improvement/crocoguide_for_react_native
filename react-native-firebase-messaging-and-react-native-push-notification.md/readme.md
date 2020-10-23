@@ -46,7 +46,7 @@ apply plugin: 'com.google.gms.google-services'
 Then put your ```google-services.json``` in ```android/app/```.
 
 ### Usage
-change **Index.js** like this:
+>change **Index.js** like this:
 ```js script
 import PushNotification from 'react-native-push-notification'
 
@@ -79,7 +79,7 @@ AppRegistry.registerComponent(appName, () => App);
 ```
 
 
->change App.js like this:
+>change **App.js** like this:
 ```js script
 import React from 'react'
 import { AsyncStorage, View } from 'react-native'
