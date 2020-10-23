@@ -5,6 +5,8 @@
 > #### React Native Side Menu
 >Side menu component for React Native
 
+<img src = "https://raw.githubusercontent.com/crocodication/crocoguide_for_react_native/master/react-native-side-menu/resources/preview.gif" />
+
 ### Installation
 ```
 npm install react-native-side-menu --save
