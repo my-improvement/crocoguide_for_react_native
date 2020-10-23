@@ -23,7 +23,7 @@ cd ios/ && pod install
 ### If you use remote notifications
 Make sure you have installed setup Firebase correctly.
 In ``` android/build.gradle ```
-```
+```gradle
 buildscript {
     ...
     dependencies {
@@ -34,7 +34,7 @@ buildscript {
 }
 ```
 In ``` android/app/build.gradle ```
-```
+```gradle
 dependencies {
   ...
   implementation 'com.google.firebase:firebase-analytics:17.3.0'
@@ -47,7 +47,7 @@ Then put your ```google-services.json``` in ```android/app/```.
 
 ### Usage
 change **Index.js** like this:
-```
+```js script
 import PushNotification from 'react-native-push-notification'
 
 PushNotification.createChannel(
@@ -80,7 +80,7 @@ AppRegistry.registerComponent(appName, () => App);
 
 
 >change App.js like this:
-```
+```js script
 import React from 'react'
 import { AsyncStorage, View } from 'react-native'
 import messaging from '@react-native-firebase/messaging'
