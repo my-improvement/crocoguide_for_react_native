@@ -1,16 +1,37 @@
 import React from 'react'
-import { AsyncStorage, View } from 'react-native'
+import { AsyncStorage, Text, View } from 'react-native'
+
 import messaging from '@react-native-firebase/messaging'
 import PushNotification from 'react-native-push-notification'
 
 export default class App extends React.Component {
+    componentDidMount() {
+        this.startListeningMessage()
+    }
+    
+    render() {
+        return (
+            <View
+                style = {{
+                    alignItems: 'center',
+                    flex: 1,
+                    justifyContent: 'center'
+                }}
+            >
+                <Text>
+                    Firebase Messaging + Push Notification
+                </Text>
+            </View>
+        )
+    }
+            
     async startListeningMessage() {
         const isPermitted = await this.getPermissionSuccessState()
 
         if (isPermitted) {
             const token = await messaging().getToken()
 
-            AsyncStorage.setItem('token', token)
+            await AsyncStorage.setItem('token', token)
 
             this.unsubcribeForegroundListener = messaging().onMessage(remoteMessage => {                    
                 PushNotification.localNotification({
@@ -19,11 +40,11 @@ export default class App extends React.Component {
                     channelId: 'default',
                     playSound: true,
                     soundName: 'default',
-                    importance: "high",
+                    importance: 'high',
                     priority: 'high',
                     vibrate: true,
                     userInfo: remoteMessage.data,
-                    group: "group",
+                    group: 'group',
                     groupSummary: true
                 })          
             })
@@ -41,13 +62,5 @@ export default class App extends React.Component {
         }
 
         return isPermitted
-    }
-    componentDidMount() {
-        this.startListeningMessage()
-    }
-    render() {
-        return (
-            <View/>
-        )
     }
 }
