@@ -4,10 +4,6 @@
 
 <p align="center">Tired to figure it out React-Native setup <strong>again</strong> and <strong>again</strong>? Hopefully this repo will cover it up.</p>
 
-#### Preparation
-
-Init your react-native project first.
-
 #### Table of Contents
 
 | Icon | Name | Description | Tested? |
