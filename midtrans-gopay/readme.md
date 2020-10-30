@@ -299,4 +299,123 @@ public class MyBridgingTest extends ReactContextBaseJavaModule implements Activi
 }
 ```
 </details>
+
+#### iOS
+<details>
+    <summary>Click to expand / collapse <strong>iOS Bridging</strong></summary>
+
+<br />
+
+1. Add to Podfile
+
+```
+pod 'MidtransCoreKit'
+pod 'MidtransKit'
+```
+
+2. Then ```pod install```
+
+3. At AppDelegate.m add imports
+
+```
+#import <MidtransKit/MidtransKit.h>
+#import "MyBridgingTest.h"
+```
+
+4. Still in AppDelegate.m, in the top at didFinishLaunchingWithOptions function add
+
+```
+[CONFIG setClientKey:@"MIDTRANS_CLIENT_KEY"
+    environment: MidtransServerEnvironmentProduction
+merchantServerURL:@"https://app.midtrans.com/snap/v1/"];
+```
+
+5. Create bridging file, for example named **MyBridgingTest.m** 
+
+```
+#import "MyBridgingTest.h"
+
+#import <React/RCTLog.h>
+#import <MidtransKit/MidtransKit.h>
+#import "AppDelegate.h"
+
+@implementation MyBridgingTest
+
+RCTResponseSenderBlock myCallback;
+
+- (dispatch_queue_t)methodQueue
+{
+  return dispatch_get_main_queue();
+}
+
+RCT_EXPORT_MODULE();
+
+RCT_EXPORT_METHOD(
+                  StartGojekAppActivity:(NSString *)token
+                  callback:(RCTResponseSenderBlock)callback
+                  ) {
+  myCallback = callback;
+
+  AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
+  [[MidtransMerchantClient shared] requestTransacationWithCurrentToken:token completion:^(MidtransTransactionTokenResponse * _Nullable regenerateToken, NSError * _Nullable error) {
+    MidtransUIPaymentViewController *paymentVC =
+    [[MidtransUIPaymentViewController alloc] initWithToken:regenerateToken
+                                         andPaymentFeature:MidtransPaymentFeatureGOPAY];
+
+    paymentVC.paymentDelegate = self;
+    [appDelegate.window.rootViewController presentViewController:paymentVC animated:YES completion:nil];
+  }];
+
+  //    dispatch_async(dispatch_get_main_queue(), ^{
+  //
+  //    });
+}
+
+#pragma mark - MidtransUIPaymentViewControllerDelegate
+
+- (void)paymentViewController:(MidtransUIPaymentViewController *)viewController paymentFailed:(NSError *)error {
+  myCallback(@[[NSNull null], @"Error"]);
+}
+
+- (void)paymentViewController:(MidtransUIPaymentViewController *)viewController paymentPending:(MidtransTransactionResult *)result {
+  //  myCallback(@[[NSNull null], @"Pending"]);
+}
+
+- (void)paymentViewController:(MidtransUIPaymentViewController *)viewController paymentSuccess:(MidtransTransactionResult *)result {
+  myCallback(@[[NSNull null], @"Success"]);
+}
+
+- (void)paymentViewController:(MidtransUIPaymentViewController *)viewController saveCard:(MidtransMaskedCreditCard *)result {
+
+}
+
+- (void)paymentViewController:(MidtransUIPaymentViewController *)viewController saveCardFailed:(NSError *)error {
+
+}
+
+- (void)paymentViewController_paymentCanceled:(MidtransUIPaymentViewController *)viewController {
+
+}
+
+@end
+```
+
+6. Then create the header of the briging file, for example named **MyBridgingTest.h** 
+
+```
+#if __has_include("RCTBridgeModule.h")
+#import "RCTBridgeModule.h"
+#else
+#import <React/RCTBridgeModule.h>
+#endif
+
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import <MidtransKit/MidtransKit.h>
+
+@interface MyBridgingTest : UIViewController <RCTBridgeModule, MidtransUIPaymentViewControllerDelegate>
+
+@end
+```
+</details>
 </details>
