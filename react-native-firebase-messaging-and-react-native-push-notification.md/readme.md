@@ -8,16 +8,18 @@
 ### Installation
 ```
 # Install & setup the app module
-npm i @react-native-firebase/app
+npm i @react-native-firebase/app --save-exact
 
 # Install the messaging module
-npm i @react-native-firebase/messaging
+npm i @react-native-firebase/messaging --save-exact
 
 # Install push notification
-npm i --save react-native-push-notification
+npm i react-native-push-notification --save-exact
+```
 
-# If you're developing your app using iOS, run this command
-cd ios/ && pod install
+If you're on a Mac and developing for iOS, you need to install the pods (via Cocoapods) to complete the linking.
+```
+npx pod-install ios
 ```
 
 ### If you use remote notifications
