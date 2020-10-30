@@ -21,6 +21,8 @@
 <br />
 <br />
 
+Change ```MIDTRANS_ORDER_TOKEN``` to your midtrans order token
+
 ```
 import React from 'react'
 import { NativeModules, Platform, Text, TouchableOpacity, View } from 'react-native'
@@ -58,7 +60,7 @@ export default class extends React.Component {
     }
 
     startGoPayTransaction() {
-        const token = "YOUR_MIDTRANS_ORDER_TOKEN"
+        const token = "MIDTRANS_ORDER_TOKEN"
 
         const MyBridgingTest = NativeModules.MyBridgingTest
 
@@ -138,7 +140,7 @@ import com.midtrans.sdk.uikit.SdkUIFlowBuilder;
 
 ```packages.add(new MyBridgingTestPackage());```
 
-- Then add this to onCreate function
+- Then add this to onCreate function **(Change ```MIDTRANS_CLIENT_KEY``` to your midtrans client key)**
 
 ```
 SdkUIFlowBuilder.init()
@@ -322,7 +324,7 @@ pod 'MidtransKit'
 #import "MyBridgingTest.h"
 ```
 
-4. Still in AppDelegate.m, in the top at didFinishLaunchingWithOptions function add
+4. Still in AppDelegate.m, in the top at didFinishLaunchingWithOptions function add code below **(Change ```MIDTRANS_CLIENT_KEY``` to your midtrans client key)**
 
 ```
 [CONFIG setClientKey:@"MIDTRANS_CLIENT_KEY"
@@ -330,7 +332,25 @@ pod 'MidtransKit'
 merchantServerURL:@"https://app.midtrans.com/snap/v1/"];
 ```
 
-5. Create bridging file, for example named **MyBridgingTest.m** 
+5. Create the header of the briging file, for example named **MyBridgingTest.h** 
+
+```
+#if __has_include("RCTBridgeModule.h")
+#import "RCTBridgeModule.h"
+#else
+#import <React/RCTBridgeModule.h>
+#endif
+
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import <MidtransKit/MidtransKit.h>
+
+@interface MyBridgingTest : UIViewController <RCTBridgeModule, MidtransUIPaymentViewControllerDelegate>
+
+@end
+```
+
+6. Then create bridging file, for example named **MyBridgingTest.m** 
 
 ```
 #import "MyBridgingTest.h"
@@ -400,22 +420,14 @@ RCT_EXPORT_METHOD(
 @end
 ```
 
-6. Then create the header of the briging file, for example named **MyBridgingTest.h** 
+7. Finally add property to info.plist
 
 ```
-#if __has_include("RCTBridgeModule.h")
-#import "RCTBridgeModule.h"
-#else
-#import <React/RCTBridgeModule.h>
-#endif
-
-#import <UIKit/UIKit.h>
-#import <Foundation/Foundation.h>
-#import <MidtransKit/MidtransKit.h>
-
-@interface MyBridgingTest : UIViewController <RCTBridgeModule, MidtransUIPaymentViewControllerDelegate>
-
-@end
+<key>LSApplicationQueriesSchemes</key>
+<array>
+    ...
+    <string>gojek</string>
+</array>
 ```
 </details>
 </details>
